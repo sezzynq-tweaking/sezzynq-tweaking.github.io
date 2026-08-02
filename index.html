@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Sezzynq - лучшая настройка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS Variables ===== */
+        :root {
+            --black: #0a0a0a;
+            --white: #f5f5f5;
+            --gray-900: #1a1a1a;
+            --gray-800: #2a2a2a;
+            --gray-700: #3a3a3a;
+            --gray-600: #5a5a5a;
+            --gray-400: #9a9a9a;
+            --gray-200: #cfcfcf;
+            --gray-100: #eaeaea;
+            --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --success: #69db7c;
+            --error: #ff6b6b;
+        }
+
+        /* ===== Reset & Base ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== Animated Background ===== */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bg-animation .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 70%);
+            animation: floatOrb 20s infinite alternate ease-in-out;
+        }
+
+        .bg-animation .orb:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            top: -10%;
+            left: -10%;
+            animation-duration: 25s;
+        }
+
+        .bg-animation .orb:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -10%;
+            right: -10%;
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .bg-animation .orb:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 22s;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(40px, -60px) scale(1.1);
+            }
+            66% {
+                transform: translate(-30px, 40px) scale(0.9);
+            }
+            100% {
+                transform: translate(20px, -20px) scale(1.05);
+            }
+        }
+
+        /* ===== Grid Lines ===== */
+        .grid-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* ===== Header ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 14px 0;
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 10, 10, 0.92);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo span {
+            color: var(--gray-400);
+            font-weight: 300;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        nav a {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--gray-400);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--white);
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--white);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--white);
+            color: var(--black) !important;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            letter-spacing: 0.3px;
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--gray-200);
+            transform: scale(1.04);
+            color: var(--black) !important;
+        }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .burger span {
+            display: block;
+            width: 26px;
+            height: 2px;
+            background: var(--white);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .burger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .burger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 780px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border: 1px solid var(--gray-700);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-400);
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px);
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 8vw, 4.8rem);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero h1 .highlight {
+            color: var(--gray-400);
+            border-bottom: 3px solid var(--gray-600);
+            padding-bottom: 4px;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            color: var(--gray-400);
+            max-width: 560px;
+            margin-bottom: 32px;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            animation: fadeInUp 0.8s ease 0.8s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 34px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            background: var(--white);
+            color: var(--black);
+            letter-spacing: 0.2px;
+            justify-content: center;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--black);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-primary:hover {
+            background: var(--gray-200);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-800);
+            border-color: var(--gray-400);
+            transform: translateY(-3px);
+        }
+
+        .btn-telegram {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .btn-telegram:hover {
+            background: var(--gray-200);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
+        }
+
+        /* ===== Sections ===== */
+        section {
+            padding: 70px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 14px;
+        }
+
+        .section-subtitle {
+            color: var(--gray-400);
+            font-size: 1rem;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .section-title .accent {
+            color: var(--gray-400);
+        }
+
+        /* ===== About ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--gray-400);
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--gray-900);
+            padding: 24px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--gray-800);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            border-color: var(--gray-600);
+            transform: translateY(-4px);
+            background: var(--gray-800);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+
+        /* ===== Features ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--gray-900);
+            padding: 28px 24px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-800);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gray-400), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            border-color: var(--gray-600);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 14px;
+            display: block;
+            color: var(--gray-400);
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+
+        /* ===== What's included ===== */
+        .included-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .included-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gray-900);
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1px solid var(--gray-800);
+            transition: var(--transition);
+        }
+
+        .included-item:hover {
+            border-color: var(--gray-600);
+            background: var(--gray-800);
+            transform: translateX(6px);
+        }
+
+        .included-item .check {
+            color: var(--gray-400);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .included-item span:last-child {
+            font-size: 0.9rem;
+        }
+
+        /* ===== Reviews ===== */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .review-card {
+            background: var(--gray-900);
+            padding: 24px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-800);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .review-card:hover {
+            border-color: var(--gray-600);
+            transform: translateY(-4px);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .review-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gray-700);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+
+        .review-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .review-role {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+        }
+
+        .review-text {
+            color: var(--gray-300);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .review-stars {
+            color: var(--gray-400);
+            letter-spacing: 2px;
+            margin-top: 12px;
+            font-size: 0.85rem;
+        }
+
+        /* ===== Pricing ===== */
+        .pricing-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+        }
+
+        .pricing-card {
+            background: var(--gray-900);
+            border-radius: 24px;
+            border: 1px solid var(--gray-800);
+            padding: 32px 28px;
+            max-width: 360px;
+            width: 100%;
+            transition: var(--transition);
+            position: relative;
+            flex: 1 1 260px;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--gray-600);
+            transform: translateY(-8px);
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--gray-400);
+            background: var(--gray-800);
+        }
+
+        .pricing-card.popular .pricing-badge {
+            background: var(--white);
+            color: var(--black);
+            padding: 4px 14px;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+
+        .pricing-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .pricing-desc {
+            color: var(--gray-400);
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+        }
+
+        .pricing-price {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 4px;
+        }
+
+        .pricing-price small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--gray-400);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 20px 0 28px;
+            padding: 0;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.9rem;
+            color: var(--gray-300);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li .check {
+            color: var(--gray-400);
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            text-align: center;
+            padding: 80px 0;
+            border-bottom: none;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            color: var(--gray-400);
+            max-width: 540px;
+            margin: 0 auto 32px;
+            font-size: 1rem;
+        }
+
+        .cta-section .btn {
+            font-size: 1rem;
+            padding: 14px 40px;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            padding: 30px 0 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--gray-600);
+            font-size: 0.8rem;
+        }
+
+        footer .footer-brand {
+            font-weight: 600;
+            color: var(--gray-400);
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== Modal ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 28px;
+            max-width: 480px;
+            width: 100%;
+            padding: 32px 28px;
+            position: relative;
+            animation: fadeInUp 0.3s ease;
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 1.6rem;
+            color: var(--gray-400);
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: var(--transition);
+            line-height: 1;
+        }
+        .modal-close:hover {
+            color: var(--white);
+            transform: rotate(90deg);
+        }
+        .modal h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .modal .plan-desc {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .modal .plan-price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .modal .plan-price small {
+            font-weight: 400;
+            color: var(--gray-400);
+            font-size: 1rem;
+        }
+
+        /* Промокод */
+        .modal .promo-field {
+            margin-bottom: 10px;
+        }
+        .modal .promo-field input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--gray-700);
+            background: var(--black);
+            color: var(--white);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+        }
+        .modal .promo-field input:focus {
+            border-color: var(--gray-400);
+        }
+        .modal .promo-field input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .modal .promo-btn {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .modal .promo-btn .btn {
+            width: 100%;
+            justify-content: center;
+        }
+        .modal .promo-btn .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Status icon container */
+        .promo-status-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
+            margin-bottom: 6px;
+        }
+        .promo-status-icon .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--gray-700);
+            border-top-color: var(--white);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .promo-status-icon .icon-result {
+            font-size: 3.2rem;
+            line-height: 1;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            transform: scale(0);
+        }
+        .promo-status-icon .icon-result.success {
+            color: var(--success);
+        }
+        .promo-status-icon .icon-result.error {
+            color: var(--error);
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .promo-status-text {
+            font-size: 0.9rem;
+            color: var(--gray-400);
+            text-align: center;
+            min-height: 1.6em;
+            margin-bottom: 12px;
+        }
+        .promo-status-text.success {
+            color: var(--success);
+        }
+        .promo-status-text.error {
+            color: var(--error);
+        }
+
+        /* Оплата */
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 16px 0 10px;
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border: 2px solid var(--gray-700);
+            background: var(--gray-900);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .payment-option:hover:not(.disabled) {
+            border-color: var(--gray-400);
+            background: var(--gray-800);
+            transform: translateX(4px);
+        }
+        .payment-option.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(0.6);
+        }
+        .payment-option .icon {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .payment-option .icon img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .payment-option .info {
+            flex: 1;
+        }
+        .payment-option .info .title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .payment-option .info .sub {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+        .payment-option .badge {
+            background: var(--gray-700);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: var(--gray-200);
+            white-space: nowrap;
+        }
+        .payment-option .badge.unavailable {
+            background: #3a2a2a;
+            color: #ff6b6b;
+        }
+
+        .modal .btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        .modal .error-msg {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+        }
+        .modal .success-msg {
+            color: #69db7c;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 992px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .hero h1 {
+                font-size: clamp(2.4rem, 6vw, 3.6rem);
+            }
+            .container {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 12px 0;
+            }
+            .logo {
+                font-size: 1.1rem;
+            }
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--black);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 24px;
+                transform: translateX(100%);
+                transition: var(--transition);
+                z-index: 999;
+                padding: 40px 20px;
+                backdrop-filter: blur(20px);
+                background: rgba(10, 10, 10, 0.96);
+            }
+            nav.open {
+                transform: translateX(0);
+            }
+            nav a {
+                font-size: 1.1rem;
+            }
+            .burger {
+                display: flex;
+                z-index: 1001;
+            }
+            .nav-cta {
+                padding: 10px 28px;
+                font-size: 0.95rem;
+            }
+            .hero {
+                padding: 100px 0 60px;
+                min-height: 90vh;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero p {
+                font-size: 0.95rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            .hero-actions .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 20px;
+            }
+            .about-grid {
+                gap: 30px;
+            }
+            .about-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+            .stat-card {
+                padding: 18px 12px;
+            }
+            .stat-number {
+                font-size: 1.6rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .included-grid {
+                grid-template-columns: 1fr;
+            }
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+            .pricing-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            .pricing-card {
+                max-width: 100%;
+                padding: 28px 20px;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .section-subtitle {
+                font-size: 0.95rem;
+                margin-bottom: 30px;
+            }
+            .cta-section {
+                padding: 60px 0;
+            }
+            .cta-section h2 {
+                font-size: 1.8rem;
+            }
+            .cta-section p {
+                font-size: 0.95rem;
+            }
+            .cta-section .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 20px;
+            }
+            section {
+                padding: 50px 0;
+            }
+            .container {
+                padding: 0 16px;
+            }
+            .hero-badge {
+                font-size: 0.7rem;
+                padding: 4px 14px;
+                margin-bottom: 18px;
+            }
+            .modal {
+                padding: 24px 18px;
+            }
+            .payment-option {
+                padding: 14px 16px;
+                flex-wrap: wrap;
+            }
+            .payment-option .icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .hero p {
+                font-size: 0.9rem;
+            }
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+            .stat-number {
+                font-size: 1.4rem;
+            }
+            .pricing-price {
+                font-size: 2rem;
+            }
+            .btn {
+                font-size: 0.85rem;
+                padding: 12px 20px;
+            }
+            .logo {
+                font-size: 1rem;
+            }
+            .nav-cta {
+                padding: 8px 20px;
+                font-size: 0.85rem;
+            }
+            .review-card {
+                padding: 18px 16px;
+            }
+            .feature-card {
+                padding: 22px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Animated Background ===== -->
+    <div class="bg-animation">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+    <div class="grid-lines"></div>
+
+    <!-- ===== Header ===== -->
+    <header id="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                Sezzynq<span>Tweaking</span>
+            </a>
+            <nav id="nav">
+                <a href="#about">О нас</a>
+                <a href="#features">Преимущества</a>
+                <a href="#included">Что входит</a>
+                <a href="#reviews">Отзывы</a>
+                <a href="#pricing">Цены</a>
+                <a href="#cta" class="nav-cta">Telegram</a>
+            </nav>
+            <button class="burger" id="burger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <div class="hero-badge">🔒 Приватная настройка</div>
+            <h1>
+                Оптимизация <br><span class="highlight">Windows</span> для вас
+            </h1>
+            <p>
+                Максимальная производительность, качество и стабильность.
+                Персональный подход для каждого клиента.
+                Поможем с любыми проблемами.
+            </p>
+            <div class="hero-actions">
+                <a href="#cta" class="btn btn-primary">Заказать оптимизацию</a>
+                <a href="#about" class="btn btn-secondary">Узнать больше</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text animate-on-scroll">
+                    <span class="hero-badge" style="margin-bottom:12px;">О нас</span>
+                    <h2 class="section-title">Что такое <span class="accent">приватная оптимизация</span>?</h2>
+                    <p>
+                        Это глубокая настройка Windows, направленная на повышение скорости работы,
+                        устранение шпионских модулей и отключение телеметрии. Мы настраиваем систему
+                        под ваши задачи — будь то игры, работа или творчество.
+                    </p>
+                    <p>
+                        В отличие от других приватных настроек мы не используем настройки,которые уже давно
+                        и популярно используются в открытом интернете. Мы настраиваем клиент под их комплектующие,
+                        будь то чайник для скроллинга браузера.
+                    </p>
+                </div>
+                <div class="about-stats animate-on-scroll">
+                    <div class="stat-card">
+                        <span class="stat-number">99%</span>
+                        <span class="stat-label">довольных клиентов</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">20+</span>
+                        <span class="stat-label">настроек вручную</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">проблем после настройки</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">поддержка после настройки</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Features ===== -->
+    <section id="features">
+        <div class="container">
+            <div class="animate-on-scroll">
+                <span class="hero-badge" style="margin-bottom:8px;">Почему мы</span>
+                <h2 class="section-title">Ключевые <span class="accent">преимущества</span></h2>
+                <p class="section-subtitle">Именно мы настраиваем вашу систему,чтобы добиться максимального результата.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card animate-on-scroll">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Максимальная скорость</h3>
+                    <p>Отключение лишнего мусора и очищения процессов для наивысшего отклика в ваших любимых играх.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <span class="feature-icon">🛡️</span>
+                    <h3>Полная приватность</h3>
+                    <p>Удаляем телеметрию, шпионские модули и навязчивые службы Microsoft,которые как-то могут собирать вашу иформацию.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <span class="feature-icon">🎯</span>
+                    <h3>Индивидуальный подход</h3>
+                    <p>Для каждого клиента мы подберем качественные настройки именно для его комплектующих.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <span class="feature-icon">🔧</span>
+                    <h3>Стабильность и надёжность</h3>
+                    <p>Только проверенные нами методы. После нас у вас не будет никаких ошибок и проблем.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <span class="feature-icon">🧠</span>
+                    <h3>Глубокая экспертиза</h3>
+                    <p>Более 2 лет опыта в настройке Windows. Знаем,что делаем.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <span class="feature-icon">💬</span>
+                    <h3>Поддержка 24/7</h3>
+                    <p>После оптимизации мы остаёмся на связи. Любые вопросы — у нас в Telegram.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Included ===== -->
+    <section id="included">
+        <div class="container">
+            <div class="animate-on-scroll">
+                <span class="hero-badge" style="margin-bottom:8px;">Что входит</span>
+                <h2 class="section-title">Полный <span class="accent">пакет</span> оптимизации</h2>
+                <p class="section-subtitle">Мы сделаем то,что не сделает любая другая бесплатная оптимизация.</p>
+            </div>
+            <div class="included-grid">
+                <div class="included-item animate-on-scroll"><span class="check">✓</span> <span>Отключение телеметрии и слежки</span></div>
+                <div class="included-item animate-on-scroll"><span class="check">✓</span> <span>Тонкая настройка реестра </span></div>
+                <div class="included-item animate-on-scroll"><span class="check">✓</span> <span>Оптимизация служб Windows</span></div>
+                <div class="included-item animate-on-scroll"><span class="check">✓</span> <span>Настройка вашего диска (SSD,HDD)</span></div>
+                <div class="included-item animate-on-scroll"><span class="check">✓</span> <span>Настройка сетевых параметров </span></div>
+                <div class="included-item animate-on-scroll"><span class="check">✓</span> <span>Настройка вашей RAM</span></div>
+                <div class="included-item animate-on-scroll"><span class="check">✓</span> <span>Настройка BIOS</span></div>
+                <div class="included-item animate-on-scroll"><span class="check">✓</span> <span>Настройка вашего процессора</span></div>
+                <div class="included-item animate-on-scroll"><span class="check">✓</span> <span>Настройка вашей видеокарты</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Reviews ===== -->
+    <section id="reviews">
+        <div class="container">
+            <div class="animate-on-scroll">
+                <span class="hero-badge" style="margin-bottom:8px;">Отзывы</span>
+                <h2 class="section-title">Что говорят <span class="accent">наши клиенты</span></h2>
+                <p class="section-subtitle">Реальные отзывы наших клиентов. (Брались из Telegram канала)</p>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card animate-on-scroll">
+                    <div class="review-header">
+                        <div class="review-avatar">А</div>
+                        <div>
+                            <div class="review-name">Аноним</div>
+                            <div class="review-role">Покупатель</div>
+                        </div>
+                    </div>
+                    <div class="review-text">
+                        лучший все объяснил помог за такие деньги реально хороший результат
+                    </div>
+                    <div class="review-stars">положительный отзыв</div>
+                </div>
+                <div class="review-card animate-on-scroll">
+                    <div class="review-header">
+                        <div class="review-avatar">А</div>
+                        <div>
+                            <div class="review-name">Аноним</div>
+                            <div class="review-role">Покупатель</div>
+                        </div>
+                    </div>
+                    <div class="review-text">
+                        ФПС прибавилось, не прям на много ну раньше было 100 прыгало до 200-250 максимум, сейчас стабильно держится 320-370, хз как но это имба, просто я не ожидал от своего динозавра, такое инпут лага будто нет мышка лучше без шуток стрелять стал лучше.
+делал sezzynq.
+                    </div>
+                    <div class="review-stars">положительный отзыв</div>
+                </div>
+                <div class="review-card animate-on-scroll">
+                    <div class="review-header">
+                        <div class="review-avatar">А</div>
+                        <div>
+                            <div class="review-name">Аноним</div>
+                            <div class="review-role">Покупатель</div>
+                        </div>
+                    </div>
+                    <div class="review-text">
+                        заказал настройку биоса че могу сказать сделал все быстро и качество фризы в играх пропали и поднялся фпс всем советую❤️
+                    </div>
+                    <div class="review-stars">положительный отзыв</div>
+                </div>
+                <div class="review-card animate-on-scroll">
+                    <div class="review-header">
+                        <div class="review-avatar">А</div>
+                        <div>
+                            <div class="review-name">Аноним</div>
+                            <div class="review-role">Покупатель</div>
+                        </div>
+                    </div>
+                    <div class="review-text">
+                        Приобрел данный Пак у человека , очень топовый пак ! Всем советую , а также большой прирост фпс
+                    </div>
+                    <div class="review-stars">положительный отзыв</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Pricing ===== -->
+    <section id="pricing">
+        <div class="container">
+            <div class="animate-on-scroll" style="text-align:center;">
+                <span class="hero-badge" style="margin-bottom:8px;">Стоимость</span>
+                <h2 class="section-title">Выберите свой <span class="accent">тариф</span></h2>
+                <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">Оплата через удобный способ</p>
+            </div>
+
+            <div class="pricing-wrapper">
+                <!-- Тариф 1 -->
+                <div class="pricing-card animate-on-scroll" data-plan="Base">
+                    <div class="pricing-name">Base</div>
+                    <div class="pricing-desc">Настройка вашего пк</div>
+                    <div class="pricing-price">750 ₽ <small>единоразово</small></div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Настройка Windows</li>
+                        <li><span class="check">✓</span> Настройка видеокарты</li>
+                        <li><span class="check">✓</span> Настройка процессора</li>
+                        <li><span class="check">✓</span> Настройка интернета</li>
+                    </ul>
+                    <button class="btn btn-secondary select-plan">Выбрать</button>
+                </div>
+
+                <!-- Тариф 2 (популярный) -->
+                <div class="pricing-card popular animate-on-scroll" data-plan="Premium">
+                    <div class="pricing-badge">🔥Рекомендуем</div>
+                    <div class="pricing-name">Premium</div>
+                    <div class="pricing-desc">Улучшенаая настройка вашего пк</div>
+                    <div class="pricing-price">1200 ₽ <small>единоразово</small></div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Всё из Base</li>
+                        <li><span class="check">✓</span> Настройка BIOS</li>
+                        <li><span class="check">✓</span> Разгон памяти</li>
+                        <li><span class="check">✓</span> Очистка от вирусов</li>
+                    </ul>
+                    <button class="btn btn-primary select-plan">Выбрать</button>
+                </div>
+
+                <!-- Тариф 3 -->
+                <div class="pricing-card animate-on-scroll" data-plan="STW Tweaker">
+                    <div class="pricing-name">STW Tweaker</div>
+                    <div class="pricing-desc">Твикер для настройки пк</div>
+                    <div class="pricing-price">1200 ₽ <small>единоразово</small></div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Ручная настройка</li>
+                        <li><span class="check">✓</span> Большая прибавка производительности</li>
+                        <li><span class="check">✓</span> Все контролируете вы сами</li>
+                    </ul>
+                    <button class="btn btn-secondary select-plan">Выбрать</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section id="cta" class="cta-section">
+        <div class="container">
+            <div class="animate-on-scroll">
+                <span class="hero-badge" style="margin-bottom:12px;">Готовы к изменениям?</span>
+                <h2>Свяжитесь с нами <br>в <span class="accent">Telegram</span></h2>
+                <p>
+                    Напишите в личные сообщения, и мы обсудим детали, ответим на все вопросы
+                    и подберём идеальную оптимизацию для вашего ПК.
+                </p>
+                <a href="https://t.me/km3ll" target="_blank" rel="noopener noreferrer" class="btn btn-telegram">
+                    ✈️ Написать в Telegram
+                </a>
+                <div style="margin-top:16px;color:var(--gray-600);font-size:0.85rem;">
+                    @km3ll — отвечаем в течение 15 минут
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+        <div class="container">
+            <p>
+                <span class="footer-brand">SezzynqTweaking</span> &nbsp;·&nbsp; Приватная оптимизация Windows
+                <br>
+                © 2026 Все права защищены.
+            </p>
+        </div>
+    </footer>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h3 id="modalPlanName">Base</h3>
+            <div class="plan-desc" id="modalPlanDesc">Настройка вашего пк</div>
+            <div class="plan-price" id="modalPlanPrice">750 ₽ <small>единоразово</small></div>
+
+            <!-- Промокод -->
+            <div class="promo-field">
+                <input type="text" id="modalPromoInput" placeholder="Введите промокод">
+            </div>
+            <div class="promo-btn">
+                <button class="btn btn-secondary" id="modalPromoBtn">Применить</button>
+            </div>
+
+            <!-- Статус с анимацией -->
+            <div class="promo-status-icon" id="promoStatusIconContainer">
+                <!-- Здесь будет спиннер или иконка -->
+            </div>
+            <div class="promo-status-text" id="promoStatusText"></div>
+
+            <!-- Варианты оплаты с изображениями -->
+            <div class="payment-options">
+                <!-- CryptoBot (временно недоступен) -->
+                <div class="payment-option disabled" id="payCryptoBot">
+                    <div class="icon">
+                        <img src="https://market.azuriom.com/storage/resources/vGt7GLiFukBlELTO7jw51owZpA0alGiD00tRHGfr.svg" alt="CryptoBot">
+                    </div>
+                    <div class="info">
+                        <div class="title">CryptoBot</div>
+                        <div class="sub">Оплата в криптовалюте</div>
+                    </div>
+                    <span class="badge unavailable">Временно не доступно</span>
+                </div>
+
+                <!-- Карта MIR -->
+                <div class="payment-option" id="payCardMir">
+                    <div class="icon">
+                        <img src="https://adindex.ru/files2/news/2018_03/169840_Mir_Logo_Id_04.005.jpeg" alt="Карта MIR">
+                    </div>
+                    <div class="info">
+                        <div class="title">Карта MIR</div>
+                        <div class="sub">Быстрая оплата картой</div>
+                    </div>
+                    <span class="badge">Рекомендуем</span>
+                </div>
+            </div>
+
+            <!-- Сообщение о промокоде -->
+            <div style="font-size:0.85rem; color: var(--gray-400); margin-top: 12px; text-align:center; border-top:1px solid var(--gray-700); padding-top:14px;">
+                💡 При оплате картой обязательно укажите <strong>применённый промокод</strong> в сообщении.
+            </div>
+
+            <div id="modalError" class="error-msg"></div>
+            <div id="modalSuccess" class="success-msg"></div>
+        </div>
+    </div>
+
+    <!-- ===== JavaScript ===== -->
+    <script>
+        (function() {
+            'use strict';
+
+            // --- Burger menu ---
+            const burger = document.getElementById('burger');
+            const nav = document.getElementById('nav');
+            burger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+                nav.classList.toggle('open');
+            });
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    burger.classList.remove('active');
+                    nav.classList.remove('open');
+                });
+            });
+            document.addEventListener('click', function(e) {
+                if (!nav.contains(e.target) && !burger.contains(e.target)) {
+                    burger.classList.remove('active');
+                    nav.classList.remove('open');
+                }
+            });
+
+            // --- Header scroll ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 60) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
+            });
+
+            // --- Intersection Observer ---
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+                animateElements.forEach(el => observer.observe(el));
+            } else {
+                animateElements.forEach(el => el.classList.add('visible'));
+            }
+
+            // --- MODAL LOGIC ---
+            const modal = document.getElementById('paymentModal');
+            const modalClose = document.getElementById('modalClose');
+            const modalPlanName = document.getElementById('modalPlanName');
+            const modalPlanDesc = document.getElementById('modalPlanDesc');
+            const modalPlanPrice = document.getElementById('modalPlanPrice');
+            const modalError = document.getElementById('modalError');
+            const modalSuccess = document.getElementById('modalSuccess');
+            const modalPromoInput = document.getElementById('modalPromoInput');
+            const modalPromoBtn = document.getElementById('modalPromoBtn');
+            const promoStatusIcon = document.getElementById('promoStatusIconContainer');
+            const promoStatusText = document.getElementById('promoStatusText');
+
+            const payCryptoBot = document.getElementById('payCryptoBot');
+            const payCardMir = document.getElementById('payCardMir');
+
+            // Данные по тарифам (новые цены и старые)
+            const planPrices = {
+                'Base': { new: 750, old: 500 },
+                'Premium': { new: 1200, old: 1000 },
+                'STW Tweaker': { new: 1200, old: 1200 }
+            };
+            const validPromoCodes = ['sezzynq', 'capkika'];
+
+            let currentPlan = null;
+            let promoApplied = false;
+
+            function openModal(planName, planDesc) {
+                const prices = planPrices[planName] || { new: 0, old: 0 };
+                const currentPrice = promoApplied ? prices.old : prices.new;
+                const priceDisplay = currentPrice + ' ₽ <small>единоразово</small>';
+
+                modalPlanName.textContent = planName;
+                modalPlanDesc.textContent = planDesc;
+                modalPlanPrice.innerHTML = priceDisplay;
+                currentPlan = {
+                    name: planName,
+                    description: planDesc,
+                    price: currentPrice,
+                    oldPrice: prices.old,
+                    newPrice: prices.new
+                };
+
+                // Сбрасываем состояние промокода
+                resetPromoUI();
+                promoApplied = false; // глобально сбрасываем, чтобы при открытии новой модалки был чистый старт
+                // но если промокод был применён ранее (в этой же сессии), мы можем сохранить состояние? 
+                // По логике лучше сбрасывать при каждом открытии, чтобы пользователь мог ввести новый.
+                // Однако, если мы хотим сохранить применённый промокод между открытиями, 
+                // то нужно сохранять в переменную, но тогда при открытии другой модалки цена будет уже старая.
+                // Но так как промокод привязан к тарифу? Нет, он общий.
+                // Для простоты сбрасываем при открытии.
+                // Если промокод уже был применён ранее (promoApplied = true), то при открытии новой модалки мы хотим сохранить скидку?
+                // Наверное, пользователь ожидает, что если он ввёл промокод один раз, то он действует на все тарифы.
+                // Поэтому сохраним состояние promoApplied глобально.
+                // Но при открытии новой модалки мы должны отобразить актуальную цену с учётом промокода.
+                // Сделаем так: если promoApplied === true, то цена уже старая, и мы показываем это.
+                // Также нужно заблокировать поле и кнопку.
+                // Поэтому в openModal мы должны проверить promoApplied и соответственно настроить UI.
+                if (promoApplied) {
+                    // уже применён, показываем статус
+                    modalPromoInput.disabled = true;
+                    modalPromoBtn.disabled = true;
+                    modalPromoBtn.textContent = 'Активирован';
+                    // показываем галочку
+                    showIcon('success', '✅ Промокод активирован!');
+                    promoStatusText.className = 'promo-status-text success';
+                    promoStatusText.textContent = 'Промокод применён! Цена снижена.';
+                } else {
+                    resetPromoUI();
+                }
+
+                modalError.style.display = 'none';
+                modalSuccess.style.display = 'none';
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function resetPromoUI() {
+                promoStatusIcon.innerHTML = '';
+                promoStatusText.textContent = '';
+                promoStatusText.className = 'promo-status-text';
+                modalPromoInput.value = '';
+                modalPromoInput.disabled = false;
+                modalPromoBtn.disabled = false;
+                modalPromoBtn.textContent = 'Применить';
+            }
+
+            function showIcon(type, text) {
+                // type: 'spinner', 'success', 'error'
+                if (type === 'spinner') {
+                    promoStatusIcon.innerHTML = '<div class="spinner"></div>';
+                } else if (type === 'success') {
+                    promoStatusIcon.innerHTML = '<div class="icon-result success">✅</div>';
+                } else if (type === 'error') {
+                    promoStatusIcon.innerHTML = '<div class="icon-result error">❌</div>';
+                }
+            }
+
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) closeModal();
+            });
+
+            // Обработчики кнопок "Выбрать"
+            document.querySelectorAll('.select-plan').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const card = this.closest('.pricing-card');
+                    if (!card) return;
+                    const name = card.querySelector('.pricing-name')?.textContent || 'Тариф';
+                    const desc = card.querySelector('.pricing-desc')?.textContent || '';
+                    openModal(name, desc);
+                });
+            });
+
+            // --- Промокод с анимацией ---
+            async function applyPromoInModal() {
+                const code = modalPromoInput.value.trim();
+                if (!code) {
+                    showIcon('error', '⚠️');
+                    promoStatusText.className = 'promo-status-text error';
+                    promoStatusText.textContent = 'Введите промокод';
+                    return;
+                }
+                // Начинаем проверку
+                modalPromoBtn.disabled = true;
+                modalPromoBtn.textContent = 'Проверка...';
+                showIcon('spinner', '');
+                promoStatusText.className = 'promo-status-text';
+                promoStatusText.textContent = 'Проверка промокода...';
+
+                // Имитация загрузки 1.5-2 сек
+                await new Promise(resolve => setTimeout(resolve, 1800));
+
+                const lowerCode = code.toLowerCase();
+                if (validPromoCodes.includes(lowerCode)) {
+                    // Успех
+                    promoApplied = true;
+                    modalPromoInput.disabled = true;
+                    modalPromoBtn.disabled = true;
+                    modalPromoBtn.textContent = 'Активирован';
+                    showIcon('success', '✅');
+                    promoStatusText.className = 'promo-status-text success';
+                    promoStatusText.textContent = 'Промокод активирован! Цена снижена.';
+                    // Обновляем цену
+                    if (currentPlan) {
+                        currentPlan.price = currentPlan.oldPrice;
+                        modalPlanPrice.innerHTML = currentPlan.oldPrice + ' ₽ <small>единоразово</small>';
+                    }
+                } else {
+                    // Ошибка
+                    showIcon('error', '❌');
+                    promoStatusText.className = 'promo-status-text error';
+                    promoStatusText.textContent = 'Неверный промокод. Попробуйте снова.';
+                    modalPromoBtn.disabled = false;
+                    modalPromoBtn.textContent = 'Применить';
+                    // Поле не блокируем
+                }
+            }
+
+            modalPromoBtn.addEventListener('click', applyPromoInModal);
+            modalPromoInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') applyPromoInModal();
+            });
+
+            // --- Обработчики оплаты ---
+
+            // CryptoBot - отключен
+            payCryptoBot.addEventListener('click', function() {
+                modalError.textContent = 'CryptoBot временно недоступен. Пожалуйста, выберите другой способ.';
+                modalError.style.display = 'block';
+                modalSuccess.style.display = 'none';
+            });
+
+            // Карта MIR - открываем Telegram
+            payCardMir.addEventListener('click', function() {
+                const promoText = promoApplied ? ('Промокод: ' + modalPromoInput.value.trim()) : 'Без промокода';
+                const msg = 'Я хочу оплатить тариф "' + currentPlan?.name + '" через карту MIR. ' + promoText;
+                // Открываем чат с поддержкой
+                const url = 'https://t.me/km3ll';
+                window.open(url, '_blank');
+                modalSuccess.textContent = 'Переход в Telegram для уточнения деталей. Не забудьте указать промокод в сообщении!';
+                modalSuccess.style.display = 'block';
+                modalError.style.display = 'none';
+            });
+
+        })();
+    </script>
+
+</body>
+</html>
