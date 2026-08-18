@@ -1177,6 +1177,80 @@
                 padding: 22px 18px;
             }
         }
+
+        /* ===== Toast / уведомление ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 3000;
+            max-width: 380px;
+            width: 100%;
+            animation: fadeInUp 0.5s ease;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+        }
+        .toast {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 20px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            backdrop-filter: blur(12px);
+            background: rgba(26, 26, 26, 0.96);
+        }
+        .toast-icon {
+            font-size: 2rem;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .toast-content {
+            flex: 1;
+        }
+        .toast-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 4px;
+            color: var(--white);
+        }
+        .toast-message {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .toast-message strong {
+            color: var(--white);
+            font-weight: 600;
+        }
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 0 4px;
+            transition: var(--transition);
+            line-height: 1;
+        }
+        .toast-close:hover {
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 480px) {
+            .toast-container {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+                max-width: 100%;
+                width: auto;
+            }
+            .toast {
+                padding: 16px 18px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1545,6 +1619,20 @@
         </div>
     </div>
 
+    <!-- ===== Toast уведомление ===== -->
+    <div class="toast-container" id="toastContainer" style="display: none;">
+        <div class="toast">
+            <div class="toast-icon">🔔</div>
+            <div class="toast-content">
+                <div class="toast-title">Есть промокод:</div>
+                <div class="toast-message">
+                    Используйте <strong>sezzynq</strong> при оформлении заказа и получите скидку.
+                </div>
+            </div>
+            <button class="toast-close" id="toastClose">✕</button>
+        </div>
+    </div>
+
     <!-- ===== JavaScript ===== -->
     <script>
         (function() {
@@ -1634,28 +1722,10 @@
                     newPrice: prices.new
                 };
 
-                // Сбрасываем состояние промокода
-                resetPromoUI();
-                promoApplied = false; // глобально сбрасываем, чтобы при открытии новой модалки был чистый старт
-                // но если промокод был применён ранее (в этой же сессии), мы можем сохранить состояние? 
-                // По логике лучше сбрасывать при каждом открытии, чтобы пользователь мог ввести новый.
-                // Однако, если мы хотим сохранить применённый промокод между открытиями, 
-                // то нужно сохранять в переменную, но тогда при открытии другой модалки цена будет уже старая.
-                // Но так как промокод привязан к тарифу? Нет, он общий.
-                // Для простоты сбрасываем при открытии.
-                // Если промокод уже был применён ранее (promoApplied = true), то при открытии новой модалки мы хотим сохранить скидку?
-                // Наверное, пользователь ожидает, что если он ввёл промокод один раз, то он действует на все тарифы.
-                // Поэтому сохраним состояние promoApplied глобально.
-                // Но при открытии новой модалки мы должны отобразить актуальную цену с учётом промокода.
-                // Сделаем так: если promoApplied === true, то цена уже старая, и мы показываем это.
-                // Также нужно заблокировать поле и кнопку.
-                // Поэтому в openModal мы должны проверить promoApplied и соответственно настроить UI.
                 if (promoApplied) {
-                    // уже применён, показываем статус
                     modalPromoInput.disabled = true;
                     modalPromoBtn.disabled = true;
                     modalPromoBtn.textContent = 'Активирован';
-                    // показываем галочку
                     showIcon('success', '✅ Промокод активирован!');
                     promoStatusText.className = 'promo-status-text success';
                     promoStatusText.textContent = 'Промокод применён! Цена снижена.';
@@ -1680,7 +1750,6 @@
             }
 
             function showIcon(type, text) {
-                // type: 'spinner', 'success', 'error'
                 if (type === 'spinner') {
                     promoStatusIcon.innerHTML = '<div class="spinner"></div>';
                 } else if (type === 'success') {
@@ -1700,7 +1769,6 @@
                 if (e.target === modal) closeModal();
             });
 
-            // Обработчики кнопок "Выбрать"
             document.querySelectorAll('.select-plan').forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     const card = this.closest('.pricing-card');
@@ -1720,19 +1788,16 @@
                     promoStatusText.textContent = 'Введите промокод';
                     return;
                 }
-                // Начинаем проверку
                 modalPromoBtn.disabled = true;
                 modalPromoBtn.textContent = 'Проверка...';
                 showIcon('spinner', '');
                 promoStatusText.className = 'promo-status-text';
                 promoStatusText.textContent = 'Проверка промокода...';
 
-                // Имитация загрузки 1.5-2 сек
                 await new Promise(resolve => setTimeout(resolve, 1800));
 
                 const lowerCode = code.toLowerCase();
                 if (validPromoCodes.includes(lowerCode)) {
-                    // Успех
                     promoApplied = true;
                     modalPromoInput.disabled = true;
                     modalPromoBtn.disabled = true;
@@ -1740,19 +1805,16 @@
                     showIcon('success', '✅');
                     promoStatusText.className = 'promo-status-text success';
                     promoStatusText.textContent = 'Промокод активирован! Цена снижена.';
-                    // Обновляем цену
                     if (currentPlan) {
                         currentPlan.price = currentPlan.oldPrice;
                         modalPlanPrice.innerHTML = currentPlan.oldPrice + ' ₽ <small>единоразово</small>';
                     }
                 } else {
-                    // Ошибка
                     showIcon('error', '❌');
                     promoStatusText.className = 'promo-status-text error';
                     promoStatusText.textContent = 'Неверный промокод. Попробуйте снова.';
                     modalPromoBtn.disabled = false;
                     modalPromoBtn.textContent = 'Применить';
-                    // Поле не блокируем
                 }
             }
 
@@ -1762,24 +1824,35 @@
             });
 
             // --- Обработчики оплаты ---
-
-            // CryptoBot - отключен
             payCryptoBot.addEventListener('click', function() {
                 modalError.textContent = 'CryptoBot временно недоступен. Пожалуйста, выберите другой способ.';
                 modalError.style.display = 'block';
                 modalSuccess.style.display = 'none';
             });
 
-            // Карта MIR - открываем Telegram
             payCardMir.addEventListener('click', function() {
                 const promoText = promoApplied ? ('Промокод: ' + modalPromoInput.value.trim()) : 'Без промокода';
                 const msg = 'Я хочу оплатить тариф "' + currentPlan?.name + '" через карту MIR. ' + promoText;
-                // Открываем чат с поддержкой
-                const url = 'https://t.me/sezzynq';
-                window.open(url, '_blank');
+                window.open('https://t.me/sezzynq', '_blank');
                 modalSuccess.textContent = 'Переход в Telegram для уточнения деталей. Не забудьте указать промокод в сообщении!';
                 modalSuccess.style.display = 'block';
                 modalError.style.display = 'none';
+            });
+
+            // ===== TOAST: показываем через 10 секунд =====
+            const toastContainer = document.getElementById('toastContainer');
+            const toastClose = document.getElementById('toastClose');
+
+            setTimeout(function() {
+                toastContainer.style.display = 'block';
+                // Автоматическое скрытие через 8 секунд
+                setTimeout(function() {
+                    toastContainer.style.display = 'none';
+                }, 8000);
+            }, 10000);
+
+            toastClose.addEventListener('click', function() {
+                toastContainer.style.display = 'none';
             });
 
         })();
